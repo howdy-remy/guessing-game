@@ -1,0 +1,109 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-box-sizing: border-box;
+  	 -moz-box-sizing: border-box;
+  				box-sizing: border-box;
+}
+
+/* LAYOUT */
+body {
+	padding: 2em;
+	background-color: #ddd;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	text-align: center;
+}
+
+section {
+	width: 80vw;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 2em;
+	background-color: #fff;
+	box-shadow: 0 0 20px 2px rgba(0,0,0,.25);
+}
+
+/* TYPOGRAPHY */
+h1{
+	font-family: 'Oswald', Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	font-size: 6em;
+	line-height: 1.2;
+	margin-bottom: -15px;
+	color:#ef4723;
+}
+
+h2 {
+	font-style: italic;
+	color: #555;
+	margin-bottom: 10px;
+}
+
+.guesses-left{
+	color: #90b03e;
+}
+
+/* FORM STYLES */
+.form {
+	max-width:510px;
+	width: 100%;
+	margin: 50px auto 0 auto;
+}
+input, button {
+	margin: 2%;
+	padding: 10px;
+	border-radius: 5px;
+	width: 96%;
+
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	text-align: center;
+	color: #fff;
+}
+
+input[type=number]{
+	background-color: #eee;
+	font-size: 2em;
+	color: #555;
+}
+button {
+	-webkit-transition: box-shadow .25s ease;
+		 -moz-transition: box-shadow .25s ease;
+					transition: box-shadow .25s ease;
+}
+
+.submit {
+	background-color: #ef4723;
+	box-shadow: inset -5px -5px #cd381e;
+}
+
+.submit:hover {
+	box-shadow: inset 5px 5px #cd381e;
+}
+
+.half-button{
+	background-color: #009fbc;
+	box-shadow: inset -5px -5px #007c92;
+	color: #fff;
+	width: 45%; 
+	/*this is totally weird, not sure where the missing 2% is going? 
+	i expect it to be button=(2|46|2) + (2|46|2) = 510 width.
+	except they don't fit side by side at 46%
+	and the mystery 2% is appearing between the two buttons but not tracked in the chrome dev tools.
+	*/
+}
+
+.half-button:hover {
+	box-shadow: inset 5px 5px #007c92;
+}
+
+/* styling placeholder text; see https://css-tricks.com/snippets/css/style-placeholder-text/ */
+::-webkit-input-placeholder {text-align: center;}
+:-moz-placeholder 					{text-align: center;font-size: .5em;}
+::-moz-placeholder 					{text-align: center;font-size: .5em;}
+:-ms-input-placeholder      {text-align: center;font-size: .5em;}
