@@ -9,14 +9,27 @@
 <body>
 	<section>
 		<h1>Pick a number</h1>
-		<h2>Input any number from 1-100</h2>
+		<p class="feedback">Input any number from 1-100</h2>
 		<p class="guesses-left">5 guesses left</p>
+		<div class="hint-box">
+			<p>It is one of these numbers:</p>
+
+		</div>
 		<div class="form">
-		  <input type="number" name="guess" placeholder="What’s your guess?">
+		  <input type="number" name="guess" id="player-input" placeholder="What’s your guess?">
 		  <button type="button" class="submit">submit your guess</button>
 		  <button type="button" class="half-button hint">get a hint?</button>
 		  <button type="button" class="half-button play-again">play again</button>
 		</div>
 	</section>
+
+	<div class="winlose">
+		<section>
+		<h1>You're a winner!</h1>
+		<button type="button" class="half-button play-again">play again</button>
+		</section>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script src="guessingGame.js"></script>
 </body>
 </html>
