@@ -1,93 +1,97 @@
-/* **** Global Variables **** */
-// try to elminate these global variables in your project, these are here just to start.
+(function(){ //use IIFE to get variables out of global scope
 
-var playersGuess,
-    winningNumber = generateWinningNumber(),
-    pastGuesses = [],
-    guessesLeft = 5;
+var winningNumber = generateRandomNumber(),
+		playersGuess,
+		feedback,
+		pastGuesses = [],
+		guessesLeft = 5;
 
-
-/* **** Guessing Game Functions **** */
-
-// Generate the Winning Number
-
-function generateWinningNumber(){
+//generate random number between 1 and 100
+function generateRandomNumber(){
 	return Math.floor(Math.random() * 100);
 }
 
-// Fetch the Players Guess
+//generate hint box content
+function hintBox(){
+	hintArray = [winningNumber]; //add winning number to array
+	while(hintArray.length < 5){ //add 4 random numbers to array
+		hintArray.push(generateRandomNumber());//same random number generator as winning number
+	};
+	//add these random numbers to the hintbox in DOM
+	$('.hint-box').append('<p class="numberhints">' + hintArray.sort().join('&nbsp;&nbsp;') + '</p>');//sort isn't really sorting correctly but at least it is jumbling up the winning number into the array.
+}
+hintBox(); //update hintbox after winning number is generated. if i generate it here instead of on button press it will only add numbers once instead of as many times the button is clicked (don't want to enable cheaters!)
 
+//assign input number to player guess
 function playersGuessSubmission(){
-		playersGuess = +$('#player-input').val();
-		$('#player-input').val("");
+		playersGuess = +$('#player-input').val(); //get value of the player input and assign it to guess
+		$('#player-input').val(""); //reset input field to blank so they can guess again
 
-		checkGuess();
+		checkGuess(); //move into checkGuess
 }
 
-// Determine if the next guess should be a lower or higher number
+//is a losing guess lower or higher?
 function lowerOrHigher(){
-	if(playersGuess == winningNumber){
-		return "You win!"
-	}else if(playersGuess > winningNumber){
-		return "Too high! You are within " + Math.ceil((playersGuess - winningNumber)/10)*10 + " numbers.";
+	if(playersGuess > winningNumber){
+		feedback = "Too high! You are within " + Math.ceil((playersGuess - winningNumber)/10)*10 + " numbers.";
 	} else {
-		return "Too low! You are within " + Math.ceil((winningNumber - playersGuess)/10)*10 + " numbers.";
+		feedback = "Too low! You are within " + Math.ceil((winningNumber - playersGuess)/10)*10 + " numbers.";
 	};
 };
 
-function guessMessage(){
-	$('.feedback').text(lowerOrHigher());	
-}
-
+//end of game, win or lose animation
 function gameEnd(winlose){
-	if(winlose == 'lose'){
-		$('.winlose').find('h1').text('Sorry. You lost.');
-	}
-	$('.winlose').animate({'top':'0'});
-}
-
-// Check if the Player's Guess is the winning number 
-
-function checkGuess(){
-	if(playersGuess == winningNumber){
-		gameEnd();
-	} else if(pastGuesses.indexOf(playersGuess) != -1){
-		$('.feedback').text("You’ve already guessed that number!");
-	} else if(playersGuess > 100){
-		$('.feedback').text("That’s over 100! Try a guess from 1–100.");
+	if(winlose == 'win'){
+		$('.winlose').find('h1').text('Woo! You won!');
+		$('.winlose').animate({'top':'0'});
 	} else {
-		guessMessage();
-		guessesLeft--;
-		$('.guesses-left').text(guessesLeft + " guesses left");	
-		pastGuesses.push(playersGuess);
-	}
-	if(guessesLeft < 1){
-		gameEnd('lose');
+		$('.winlose').find('h1').text('Sorry. You lost.');
+		$('.winlose').animate({'top':'0'});
 	}
 }
 
-// Create a provide hint button that provides additional clues to the "Player"
-
-function provideHint(){
-	hintArray = [winningNumber];
-	while(hintArray.length < 5){
-		hintArray.push(Math.floor(Math.random() * 100));
+//check the guess
+function checkGuess(){
+	//first check if guess is valid (between 1-100 and not a duplicate guess), number input field in html only allows numbers
+	if(pastGuesses.indexOf(playersGuess) != -1){
+		feedback = "You’ve already guessed that number!"
+	} else if(playersGuess > 100 || playersGuess < 0){
+		feedback = "Try a guess from 1–100."
+	} else {
+		//check if it won
+		if(playersGuess == winningNumber){
+			gameEnd('win');
+		} else { //if they did not win
+			lowerOrHigher(); //check if it is too high or too low and provide appropriate feedback
+			guessesLeft--; //reduce number of guesses
+			pastGuesses.push(playersGuess); //store the guess
+			$('.guesses-left').text(guessesLeft + " guesses left. Previous guesses: " + pastGuesses.join(', '));	//update guesses left message and list previous guesses.
+		}
+		//if they run out of guesses they lose
+		if(guessesLeft < 1){
+			gameEnd('lose');
+		}
 	};
-
-	$('.hint-box').append('<p class="numberhints">' + hintArray.sort().join('&nbsp;&nbsp;') + '</p>').show();
+	//update feedback message in DOM
+	$('.feedback').text(feedback);	
 }
-
-// Allow the "Player" to Play Again
-
+	
+//reset all the variables and messages
 function playAgain(){
-	winningNumber = generateWinningNumber();
+	//update game variables
+	winningNumber = generateRandomNumber();
 	pastGuesses = [];
 	guessesLeft = 5;
-	hintArray = winningNumber;
-	$('.feedback').text("Input any number from 1-100");
-	$('.winlose').animate({'top':'-100vh'});
+
+	//reset hint box
 	$('.hint-box').hide();
-	//need hint button reset
+	$('.numberhints').remove();
+	hintBox();
+
+	//update feedback/remove win/lose overlay and reset confetti
+	$('.feedback').text("Input any number from 1-100");
+	$('.guesses-left').text(guessesLeft + " guesses left")
+	$('.winlose').animate({'top':'-100vh'});
 }
 
 
@@ -101,12 +105,12 @@ $(document).ready(function(){
 			playersGuessSubmission();
 		};
 	});
-	$('.hint').one('click', function(){
-		provideHint();
+	$('.hint').on('click', function(){
+		$('.hint-box').slideToggle();
 	});
 	$('.play-again').on('click', function(){
 		playAgain();
 	});
 });
 
-
+})();

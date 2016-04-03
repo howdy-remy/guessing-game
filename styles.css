@@ -64,7 +64,7 @@ p.numberhints {
 	font-size: 2em;
 }
 
-/* WINLOSE DIALOGUE */
+/* WINLOSE */
 .winlose{
 width: 100vw;
 height: 100vh;
@@ -87,6 +87,9 @@ transition: all .25s;
 .winlose button {
 	margin-top:40px;
 }
+
+
+
 /* FORM STYLES */
 .form {
 	max-width:510px;
