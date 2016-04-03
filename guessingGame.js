@@ -39,11 +39,26 @@ function lowerOrHigher(){
 	};
 };
 
+function generateConfetti(){
+	//add 100 pieces of confetti
+	for(var i = 0; i < 100; i++){
+		$('.winlose').append('<i></i>');
+	};
+	//assign each a random 'left' position, a random transition time, and one of 10 color classes
+	$('i').each(function() {
+		var left = generateRandomNumber() + 'vw';
+		var transitionTime = Math.ceil(generateRandomNumber()/10) + 's';
+		var colorClass = 'color' + Math.ceil(generateRandomNumber()/10);
+    $(this).css({'left': left, 'transition-duration': transitionTime}).addClass(colorClass);
+  });
+}
+generateConfetti();
+
 //end of game, win or lose animation
 function gameEnd(winlose){
 	if(winlose == 'win'){
 		$('.winlose').find('h1').text('Woo! You won!');
-		$('.winlose').animate({'top':'0'});
+		$('.winlose').animate({'top':'0'}).find('i').show().animate({'top':'120vh'});
 	} else {
 		$('.winlose').find('h1').text('Sorry. You lost.');
 		$('.winlose').animate({'top':'0'});
@@ -92,6 +107,7 @@ function playAgain(){
 	$('.feedback').text("Input any number from 1-100");
 	$('.guesses-left').text(guessesLeft + " guesses left")
 	$('.winlose').animate({'top':'-100vh'});
+	$('.winlose').find('i').css({'display': 'none', 'top':'-20px'});
 }
 
 

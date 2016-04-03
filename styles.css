@@ -88,7 +88,31 @@ transition: all .25s;
 	margin-top:40px;
 }
 
+.winlose i {
+	position: fixed;
+	top: -20px;
+	height:10px;
+	width: 10px;
+	border-radius: 50%;
+	-webkit-transition: all;
+		 -moz-transition: all;
+		 			transition: all;
+	-webkit-transition-delay: .5s;
+		 -moz-transition-delay: .5s;
+					transition-delay: .5s;
 
+}
+
+i.color1 {background-color: #009fbc;} /*blue*/
+i.color2 {background-color: #ef4823;} /*red*/
+i.color3 {background-color: #cd381e;} /*dark red*/
+i.color4 {background-color: #007c92;} /*dark blue */
+i.color5 {background-color: #8dc63f;} /*green*/
+i.color6 {background-color: #40561d;} /*dark green */
+i.color7 {background-color: #fdb913;} /*yellow*/
+i.color8 {background-color: #f26522;} /*orange */
+i.color9 {background-color: #92278f;} /*purple*/
+i.color10 {background-color: #fff;} /*white*/
 
 /* FORM STYLES */
 .form {
